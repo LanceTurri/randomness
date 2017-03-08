@@ -1,86 +1,86 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Random Generator for Panda!</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <title>Randomization engine</title>
 
-    <style type="text/css">
-    body {
-        margin: 50px auto;
-        width: 80%;
-    }
-
-    textarea {
-        min-height: 150px;
-    }
-
-    .list-group-item.active {
-        background: rgba(59,123,113,0.7);
-        border-color: rgba(59,123,113,1.0);
-        color: #f2f2f2;
-    }
-
-    .list-group-item.active:hover {
-        background: rgba(59,123,113,0.8);
-    }
-    </style>
+    <link href="https://fonts.googleapis.com/css?family=Pacifico|Roboto:300,700" rel="stylesheet">
+    <link rel="stylesheet" href="Styles/base.min.css" />
 </head>
-<body>
+<body class="flex-wrapper">
 
-<h2>The most amazing randomization engine <small>For my panda!</small></h2>
+    <header class="header-bar" role="banner">
+        <h1>Randomization Engine</h1>
+    </header>
 
-<p class="lead">Sometimes we all need a bit of randomness in our lives.</p>
+    <main>
+        <section class="sidebar-controls">
+            <!-- Summary of options selected -->
+            <div class="sidebar-section-wrapper">
+                <h3 class="sidebar-section-title">Selected Options</h3>
 
-
-<div class="row">
-    <div class="col-md-6">
-        <!-- Summary of options selected -->
-        <ul class="list-group">
-            <li class="list-group-item active"><strong>A Summary of Your Options</strong></li>
-            <li class="list-group-item" data-bind="html: 'Your mode is: <strong>' + mode() + '</strong>'"></li>
-            <li class="list-group-item" data-bind="html: 'With a group size of: <strong>' + groupSize() + '</strong>', visible: mode() === 'Size'"></li>
-            <li class="list-group-item" data-bind="html: 'With the number of groups: <strong>' + groupNumber() + '</strong>', visible: mode() === 'Group'"></li>
-        </ul>
-
-        <form>
-            <div class="form-group">
-                <label for="mode">What mode would you like to operate in?</label>
-                <select id="mode" class="form-control" data-bind="options: groupOptions, value: mode"></select>
+                <ul class="sidebar-summary">
+                    <li class="sidebar-summary-item">Mode:<strong class="status-label" data-bind="text: mode"></strong></li>
+                    <li class="sidebar-summary-item" data-bind="visible: mode() === 'size' && groupSize() > 0" style="display: none;">Group Size: <strong class="status-label" data-bind="text: groupSize"></strong></li>
+                    <li class="sidebar-summary-item" data-bind="visible: mode() === 'group' && groupNumber() > 0" style="display: none;">Number of Groups: <strong class="status-label" data-bind="text: groupNumber"></strong></li>
+                </ul>
             </div>
 
-            <div class="form-group" data-bind="visible: mode() === 'Size'">
-                <label for="size">What size do you want your group to be?</label>
-                <input type="text" class="form-control" id="size" data-bind="textInput: groupSize" placeholder="Size of your group">
+            <form class="sidebar-section-wrapper">
+                <h3 class="sidebar-section-title">Customize Your Groups</h3>
+
+                <div class="sidebar-control-group sidebar-toggle">
+                    <input id="mode_size" data-bind="checked: mode" type="radio" name="mode" value="size" checked />
+                    <label class="sidebar-toggle-item" for="mode_size">Group Size</label>
+                    
+                    <input id="mode_group" data-bind="checked: mode" type="radio" name="mode" value="group" />
+                    <label class="sidebar-toggle-item" for="mode_group"># of Groups</label>
+                </div>
+
+                <div class="sidebar-control-group" data-bind="visible: mode() === 'size'">
+                    <input type="text" class="form-control" id="size" data-bind="textInput: groupSize" placeholder="Size of your group?">
+                </div>
+
+                <div class="sidebar-control-group" data-bind="visible: mode() === 'group'">
+                    <input type="text" class="form-control" id="group" data-bind="textInput: groupNumber" placeholder="How many groups?">
+                </div>
+
+                <div class="sidebar-control-group">
+                    <textarea class="form-control" data-bind="textInput: peopleNames" placeholder="List of items (comma-separated please!)"></textarea>
+                </div>
+
+                <button class="button-submit" data-bind="click: randomizePeople, enable: mode() && (groupSize() || groupNumber())">Randomize!</button>
+            </form>
+
+            <div class="sidebar-footer">
+                <a class="fontawesome-github" href="https://github.com/LanceTurri/randomness"></a>
+                <a class="fontawesome-linkedin" href="https://www.linkedin.com/in/lance-turri-37b39030/"></a>
             </div>
+        </section>
 
-            <div class="form-group" data-bind="visible: mode() === 'Group'">
-                <label for="group">How many groups do you want?</label>
-                <input type="text" class="form-control" id="group" data-bind="textInput: groupNumber" placeholder="Size of your group">
-            </div>
+        <div class="summary">
+            <!-- Output the People groups -->
+            <h2>Your Groups</h2>
 
-            <div class="form-group">
-                <label>And who are we randomizing?</label>
-                <textarea class="form-control" data-bind="textInput: peopleNames"></textarea>
-            </div>
-
-            <button class="btn btn-primary" data-bind="click: randomizePeople, enable: mode() && (groupSize() || groupNumber())">Randomize!</button>
-        </form>
-    </div>
-
-    <div class="col-md-6">
-        <!-- Output the People groups -->
-        <ul class="list-group">
-            <li class="list-group-item active"><strong>Your Groups</strong></li>
-            <!-- ko foreach: peopleArray -->
-            <li class="list-group-item" data-bind="text: $data"></li>
+            <!-- ko if: peopleArray().length > 0 -->
+            <ul class="summary-group">
+                <!-- ko foreach: peopleArray -->
+                <li class="summary-group-item" data-bind="text: $data"></li>
+                <!-- /ko -->
+            </ul>
             <!-- /ko -->
-        </ul>
-    </div>
-</div>
+
+            <!-- ko ifnot: peopleArray().length > 0 -->
+            <div class="blank-slate">
+                <p>Please customize your groups in the sidebar.</p>
+                <small>Once you have clicked <em>Randomize</em> the group results will be listed here.</small>
+            </div>
+            <!-- /ko -->
+
+        </div>
+    </main>
 
     <script src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
     <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js'></script>
-    <script type='text/javascript' src='randomGenerator.js'></script>
+    <script type='text/javascript' src='Scripts/app.js'></script>
 </body>
 </html>

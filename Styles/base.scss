@@ -1,0 +1,243 @@
+@import 'partials/_variables.scss';
+@import 'partials/_normalize.scss';
+
+// Icons and fonts
+@import url(http://weloveiconfonts.com/api/?family=fontawesome);
+
+/* fontawesome */
+[class*="fontawesome-"]:before {
+    font-family: 'FontAwesome', sans-serif;
+    vertical-align: middle;
+    speak: none;
+    font-size: 18px;
+    padding-right: 5px;
+    line-height: 18px;
+}
+
+.pacifico {
+    font-family: 'Pacifico', serif;
+    font-weight: 400;
+} 
+
+.roboto {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+}
+
+// Global
+* {
+    box-sizing: border-box;
+}
+
+body,
+html {
+    height: 100%;
+}
+
+body {
+    background: url('../Images/background.png');
+    @extend .roboto;
+}
+
+.flex-wrapper {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+}
+
+// Header bar
+.header-bar {
+    background: $gray-darken-5;
+    color: $gray-lighten-3;
+    padding: 15px;
+    text-align: center;
+    width: 100%;
+
+    h1 {
+        font-size: 18px;
+        font-weight: 400;
+        margin: 0;
+
+        @extend .pacifico;
+    }
+}
+
+// Sidebar
+// Change this from a main
+main {
+    display: flex;
+    flex-grow: 2;
+}
+
+.sidebar-controls {
+    background: $gray-darken-3;
+    color: $gray-lighten-3;
+    max-width: 300px;
+    padding: 0 20px 60px 20px;
+    position: relative;
+    width: 35%;
+
+    .sidebar-section-wrapper {
+        border-bottom: 1px solid $gray-darken-1;
+        margin-bottom: 5px;
+    }
+
+    .sidebar-section-title {
+        font-size: 14px;
+        padding: 10px 0;
+        text-transform: uppercase;
+    }
+
+    .sidebar-toggle {
+        display: flex;
+
+        .sidebar-toggle-item {
+            background: lighten($gray-darken-5, 2%);
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            padding: 15px;
+            font-size: 12px;
+            text-align: center;
+            width: 50%;
+            transition: 300ms all linear;
+            display: block;
+
+            &:hover {
+                border-bottom: 2px solid darken($accent, 20%);
+            }
+        }
+
+        input[type="radio"] {
+            display: none;
+        }
+
+        input[type="radio"]:checked + label {
+            background: $gray-darken-5;
+            border-bottom: 2px solid $accent;
+            cursor: default;
+        }
+    }
+
+    .sidebar-summary {
+        padding: 0 0 20px 0;
+        margin: 0;
+        list-style: none;
+
+        .sidebar-summary-item {
+            padding: 5px 5px;
+            font-size: 14px;
+        }
+
+        .status-label {
+            background: $accent;
+            padding: 2px 5px;
+            border-radius: 3px;
+            float: right;
+            text-transform: uppercase;
+            font-weight: 700;
+            font-size: 12px;
+            width: 60px;
+            text-align: center;
+        }
+    }
+
+    .sidebar-control-group {
+        margin-bottom: 10px;
+
+        .form-control {
+            background: $gray-darken-5;
+            border: none;
+            color: $gray-lighten-3;
+            font-size: 13px;
+            outline: none;
+            padding: 15px 10px;
+            width: 100%;
+        }
+    }
+
+    .button-submit {
+        background: $accent;
+        border: 1px solid $gray-darken-1;
+        color: $gray-lighten-3;
+        cursor: pointer;
+        font-size: 18px;
+        margin-top: 5px;
+        padding: 10px;
+        width: 100%;
+
+        @extend .pacifico;
+    }
+
+    .sidebar-footer {
+        bottom: 0;
+        border-top: 1px solid $gray-darken-1;
+        left: 0;
+        padding: 15px 0;
+        position: absolute;
+        text-align: center;
+        width: 100%;
+
+        a {
+            color: $gray-lighten-3;
+            margin: 0 5px;
+            text-decoration: none;
+
+            &:before {
+                font-size: 24px;
+                transition: 200ms color linear;
+            }
+
+            &:hover:before {
+                color: $accent;
+            }
+        }
+    }
+}
+
+.summary {
+    background: $gray-lighten-3;
+    color: $gray-darken-5;
+    margin: 50px auto;
+    width: 50%;
+
+    h2 {
+        background: $accent;
+        color: $gray-lighten-3;
+        font-weight: 300;
+        margin: 0;
+        padding: 15px 0;
+        text-align: center;
+
+        @extend .pacifico;
+    }
+
+    .blank-slate {
+        padding: 30px 15px;
+        text-align: center;
+        font-size: 18px;
+        line-height: 135%;
+
+        p {
+            margin: 5px;
+        }
+    }
+
+    .summary-group {
+        list-style: none;
+        margin: 0;
+        padding: 15px;
+
+        .summary-group-item {
+            background: $gray-lighten-2;
+            padding: 10px;
+            margin-bottom: 10px;
+            position: relative;
+            border-radius: 3px;
+        }
+    }
+}
+
+textarea {
+    min-height: 150px;
+}
+

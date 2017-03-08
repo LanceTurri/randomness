@@ -1,16 +1,15 @@
 var RandomGenerator = function() {
     var self = this;
 
-    self.mode = ko.observable('group');
+    self.mode = ko.observable('size');
     self.groupSize = ko.observable();
     self.groupNumber = ko.observable();
-    self.groupOptions = ko.observableArray(['Size', 'Group']);
     self.peopleNames = ko.observable('');
     self.peopleArray = ko.observableArray([]);
 
     self.randomizePeople = function() {
         // First we split the string from the textArea into an array
-        var splitArray = self.peopleNames().split('\n');
+        var splitArray = self.peopleNames().replace(/\r?\n|\r/, '').replace(/[^/w/s]gi/, '').split(',');
 
         // Now we randomize the array to assist with the grouping later
         var currentIndex = splitArray.length - 1;
@@ -35,9 +34,9 @@ var RandomGenerator = function() {
             currentIndex -= 1;
         }
 
-        if(self.mode() === 'Size') {
+        if(self.mode() === 'size') {
             sizeRandomization(splitArray);
-        } else if(self.mode() === 'Group') {
+        } else if(self.mode() === 'group') {
             groupRandomization(splitArray);
         }
     }
@@ -55,15 +54,15 @@ var RandomGenerator = function() {
 
         // Now let's populate all of those arrays!
         var index = 0;
-        var index2 = 0;
+        var inrayception = 0;
 
         while (index < arrayCount) {
             for (var j = 0; j < self.groupSize(); j++) {
-                var currentArrayEntry = splitArray[index2]
+                var currentArrayEntry = splitArray[inrayception]
 
-                if(currentArrayEntry) {
-                    tempArray[index][j] = splitArray[index2];
-                    index2++;
+                if( currentArrayEntry) {
+                    tempArray[index][j] = splitArray[inrayception];
+                    inrayception++;
                 } else {
                     break;
                 }
