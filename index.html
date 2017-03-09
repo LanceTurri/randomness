@@ -3,8 +3,9 @@
 <head>
     <title>Randomization engine</title>
 
-    <link href="https://fonts.googleapis.com/css?family=Pacifico|Roboto:300,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Pacifico|Quicksand:300,700" rel="stylesheet"> 
     <link rel="stylesheet" href="Styles/base.min.css" />
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css" />
 </head>
 <body class="flex-wrapper">
 
@@ -20,8 +21,8 @@
 
                 <ul class="sidebar-summary">
                     <li class="sidebar-summary-item">Mode:<strong class="status-label" data-bind="text: mode"></strong></li>
-                    <li class="sidebar-summary-item" data-bind="visible: mode() === 'size' && groupSize() > 0" style="display: none;">Group Size: <strong class="status-label" data-bind="text: groupSize"></strong></li>
-                    <li class="sidebar-summary-item" data-bind="visible: mode() === 'group' && groupNumber() > 0" style="display: none;">Number of Groups: <strong class="status-label" data-bind="text: groupNumber"></strong></li>
+                    <li class="sidebar-summary-item" data-bind="visible: mode() === 'size'" style="display: none;">Group Size: <strong class="status-label" data-bind="text: groupSizeDisplay"></strong></li>
+                    <li class="sidebar-summary-item" data-bind="visible: mode() === 'group'" style="display: none;">Number of Groups: <strong class="status-label" data-bind="text: groupNumberDisplay"></strong></li>
                 </ul>
             </div>
 
@@ -52,8 +53,8 @@
             </form>
 
             <div class="sidebar-footer">
-                <a class="fontawesome-github" href="https://github.com/LanceTurri/randomness"></a>
-                <a class="fontawesome-linkedin" href="https://www.linkedin.com/in/lance-turri-37b39030/"></a>
+                <a class="fa fa-github" href="https://github.com/LanceTurri/randomness"></a>
+                <a class="fa fa-linkedin" href="https://www.linkedin.com/in/lance-turri-37b39030/"></a>
             </div>
         </section>
 
@@ -64,7 +65,10 @@
             <!-- ko if: peopleArray().length > 0 -->
             <ul class="summary-group">
                 <!-- ko foreach: peopleArray -->
-                <li class="summary-group-item" data-bind="text: $data"></li>
+                <li class="summary-group-item">
+                    <strong class="summary-group-title" data-bind="text: 'Group ' + $index()"></strong>
+                    <!-- ko text: $data --><!-- /ko -->
+                </li>
                 <!-- /ko -->
             </ul>
             <!-- /ko -->

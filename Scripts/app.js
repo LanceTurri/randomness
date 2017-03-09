@@ -7,6 +7,30 @@ var RandomGenerator = function() {
     self.peopleNames = ko.observable('');
     self.peopleArray = ko.observableArray([]);
 
+    self.isRandomizationEnabled = ko.pureComputed(function () {
+        if ((self.mode() === 'size' && self.groupSize() > 0) || (self.mode() === 'group' && self.groupNumber() > 0)) {
+            return true;
+        }
+
+        return false;
+    });
+
+    self.groupSizeDisplay = ko.pureComputed(function () {
+        if (self.groupSize()) {
+            return self.groupSize();
+        }
+
+        return 'N/A';
+    });
+
+    self.groupNumberDisplay = ko.pureComputed(function () {
+        if (self.groupNumber()) {
+            return self.groupNumber();
+        }
+
+        return 'N/A';
+    });
+
     self.randomizePeople = function() {
         // First we split the string from the textArea into an array
         var splitArray = self.peopleNames().replace(/\r?\n|\r/, '').replace(/[^/w/s]gi/, '').split(',');

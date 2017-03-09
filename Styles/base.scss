@@ -2,31 +2,24 @@
 @import 'partials/_normalize.scss';
 
 // Icons and fonts
-@import url(https://weloveiconfonts.com/api/?family=fontawesome);
-
-/* fontawesome */
-[class*="fontawesome-"]:before {
-    font-family: 'FontAwesome', sans-serif;
-    vertical-align: middle;
-    speak: none;
-    font-size: 18px;
-    padding-right: 5px;
-    line-height: 18px;
-}
-
 .pacifico {
     font-family: 'Pacifico', serif;
     font-weight: 400;
 } 
 
-.roboto {
-    font-family: 'Roboto', sans-serif;
+.quicksand {
+    font-family: 'Quicksand', sans-serif;
     font-weight: 300;
 }
 
 // Global
 * {
     box-sizing: border-box;
+}
+
+:disabled {
+    cursor: default;
+    opacity: 0.5;
 }
 
 body,
@@ -36,7 +29,7 @@ html {
 
 body {
     background: url('../Images/background.png');
-    @extend .roboto;
+    @extend .quicksand;
 }
 
 .flex-wrapper {
@@ -230,9 +223,18 @@ main {
         .summary-group-item {
             background: $gray-lighten-2;
             padding: 10px;
-            margin-bottom: 10px;
+            margin: 5px;
             position: relative;
             border-radius: 3px;
+            line-height: 135%;
+        }
+
+        .summary-group-title {
+            color: $base-gray;
+            display: block;
+            font-weight: 700;
+            font-size: 18px;
+            padding-bottom: 10px;
         }
     }
 }
