@@ -124,6 +124,7 @@ main {
 
         .status-label {
             float: right;
+            padding: 2px 5px;
             width: 60px;
         }
     }
@@ -246,11 +247,11 @@ textarea {
 .status-label {
     background: $accent;
     color: $gray-lighten-3;
-    padding: 2px 5px;
     border-radius: 3px;
     text-transform: uppercase;
     font-weight: 700;
     font-size: 12px;
     line-height: 12px;
+    padding: 4px 10px;
     text-align: center;
 }
