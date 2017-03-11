@@ -1,15 +1,29 @@
-var randomGeneratorViewModel = (function () {
-    function randomGeneratorViewModel() {
-        var _this = this;
+interface randomGeneratorViewModel {
+    mode: KnockoutObservable<string>,
+    groupSize: KnockoutObservable<string>,
+    groupNumber: KnockoutObservable<string>,
+    peopleNames: KnockoutObservable<string>,
+    peopleArray: KnockoutObservableArray<object>,
+    isRandomizationEnabled: KnockoutComputed<boolean>,
+    groupSizeDisplay: KnockoutComputed<string>,
+    groupNumberDisplay: KnockoutComputed<string>,
+    groupNameDisplay: KnockoutComputed<string>,
+    randomGroupNames: string[]
+}
+
+class randomGeneratorViewModel {
+    constructor() {
         this.mode = ko.observable('size');
-        this.mode.subscribe(function () {
-            _this.groupSize('');
-            _this.groupNumber('');
+        this.mode.subscribe(() => {
+            this.groupSize('');
+            this.groupNumber('');
         });
+        
         this.groupSize = ko.observable('');
         this.groupNumber = ko.observable('');
         this.peopleNames = ko.observable('');
         this.peopleArray = ko.observableArray([]);
+
         this.randomGroupNames = [
             'Amazingness',
             'Dream Crushers',
@@ -28,130 +42,162 @@ var randomGeneratorViewModel = (function () {
             'Blushing Bamboo',
             'Farfetched Feathers'
         ];
-        this.isRandomizationEnabled = ko.pureComputed(function () {
-            if ((_this.mode() === 'size' && parseInt(_this.groupSize()) > 0) || (_this.mode() === 'group' && parseInt(_this.groupNumber()) > 0)) {
+        
+        this.isRandomizationEnabled = ko.pureComputed( () => {
+            if ((this.mode() === 'size' && parseInt(this.groupSize()) > 0) || (this.mode() === 'group' && parseInt(this.groupNumber()) > 0)) {
                 return true;
             }
+
             return false;
         });
-        this.groupSizeDisplay = ko.pureComputed(function () {
-            if (_this.groupSize()) {
-                return _this.groupSize();
+
+        this.groupSizeDisplay = ko.pureComputed( () => {
+            if (this.groupSize()) {
+                return this.groupSize();
             }
+
             return 'N/A';
         });
-        this.groupNumberDisplay = ko.pureComputed(function () {
-            if (_this.groupNumber()) {
-                return _this.groupNumber();
+
+        this.groupNumberDisplay = ko.pureComputed( () => {
+            if (this.groupNumber()) {
+                return this.groupNumber();
             }
+
             return 'N/A';
         });
     }
-    randomGeneratorViewModel.prototype.randomizePeople = function () {
+
+    randomizePeople() {
         // First we split the string from the textArea into an array
-        var splitArray = this.peopleNames().replace(/\r?\n|\r/g, '').replace(/[^/w/s]gi/, '').replace(',,', ',').split(',');
+        let splitArray: string[] = this.peopleNames().replace(/\r?\n|\r/g, '').replace(/[^/w/s]gi/, '').replace(',,', ',').split(',');
+
         // Now we randomize the array to assist with the grouping later
-        var currentIndex = splitArray.length - 1;
-        var randomIndex = null;
-        var temporaryArrayString = null;
+        let currentIndex: number = splitArray.length - 1;
+        let randomIndex:number = null;
+        let temporaryArrayString: string = null;
+
         // Let's randomize this array!
         while (currentIndex !== 0) {
             // Get a random number
             randomIndex = Math.floor(Math.random() * currentIndex);
+
             // Store temporary value from the current index
             temporaryArrayString = splitArray[currentIndex];
+
             // Set the current index with the random index number
             splitArray[currentIndex] = splitArray[randomIndex];
+
             // Set the temporary index to the random index that was just used
             splitArray[randomIndex] = temporaryArrayString;
+
             // Decrement index
             currentIndex -= 1;
         }
-        if (this.mode() === 'size') {
+
+        if(this.mode() === 'size') {
             this.sizeRandomization(splitArray);
-        }
-        else if (this.mode() === 'group') {
+        } else if(this.mode() === 'group') {
             this.groupRandomization(splitArray);
         }
-    };
-    randomGeneratorViewModel.prototype.sizeRandomization = function (splitArray) {
+    }
+    
+
+    sizeRandomization(splitArray: string[]): void {
         // 12 people 3 group size = 4 arrays
-        var arrayCount = Math.ceil(splitArray.length / parseInt(this.groupSize()));
+        let arrayCount = Math.ceil(splitArray.length / parseInt(this.groupSize()));
+
         // First let's build our array of arrays
-        var tempArray = new Array(arrayCount);
-        for (var i = 0; i < arrayCount; i++) {
+        let tempArray = new Array(arrayCount);
+
+        for (let i = 0; i < arrayCount; i++) {
             tempArray[i] = []; // Empty Array
         }
+
         // Now let's populate all of those arrays!
-        var index = 0;
-        var inrayception = 0;
+        let index = 0;
+        let inrayception = 0;
+
         while (index < arrayCount) {
-            for (var j = 0; j < parseInt(this.groupSize()); j++) {
-                var currentArrayEntry = splitArray[inrayception];
-                if (currentArrayEntry) {
+            for (let j = 0; j < parseInt(this.groupSize()); j++) {
+                let currentArrayEntry = splitArray[inrayception]
+
+                if( currentArrayEntry) {
                     tempArray[index][j] = splitArray[inrayception];
                     inrayception++;
-                }
-                else {
+                } else {
                     break;
                 }
-            }
-            ;
+            };
             index++;
-        }
-        ;
-        var formattedArray = this._formatGroupListing(tempArray);
+        };
+
+        let formattedArray = this._formatGroupListing(tempArray)
         this.peopleArray(formattedArray);
-    };
-    randomGeneratorViewModel.prototype.groupRandomization = function (splitArray) {
+    }
+
+    groupRandomization(splitArray: string[]): void {
         // 12 people 3 group size = 4 arrays
-        var numberOfArrays = parseInt(this.groupNumber());
-        var numberInEachArray = Math.ceil(splitArray.length / parseInt(this.groupNumber()));
+        let numberOfArrays: number = parseInt(this.groupNumber());
+        let numberInEachArray: number = Math.ceil(splitArray.length / parseInt(this.groupNumber()));
+
         // First let's build our array of arrays
-        var tempArray = [];
-        for (var i = 0; i < numberOfArrays; i++) {
+        let tempArray: string[][] = [];
+
+        for (let i = 0; i < numberOfArrays; i++) {
             tempArray[i] = []; // Empty Array
         }
+
         // Now let's populate all of those arrays!
-        var tempArrayIndex = 0;
-        var splitArrayIndex = 0;
+        let tempArrayIndex: number = 0;
+        let splitArrayIndex: number = 0;
+
+
         // 12 people with 3 groups needed.
-        for (var i = 0; i < splitArray.length; i++) {
-            var currentArrayEntry = splitArray[splitArrayIndex];
+        for (let i = 0; i < splitArray.length; i++) {
+            let currentArrayEntry = splitArray[splitArrayIndex]
+
             if (currentArrayEntry) {
                 tempArray[(i % numberOfArrays)][tempArrayIndex] = splitArray[splitArrayIndex];
                 splitArrayIndex++;
-            }
-            else {
+            } else {
                 break;
             }
+
             // If we have put an item into each of the arrays, increment to start over from the beginning.
             if (i > 0 && i % (numberOfArrays) === 0) {
                 tempArrayIndex++;
             }
-        }
-        ;
-        var formattedArray = this._formatGroupListing(tempArray);
+
+        };
+
+        let formattedArray = this._formatGroupListing(tempArray)
         this.peopleArray(formattedArray);
-    };
-    randomGeneratorViewModel.prototype.getRandomGroupName = function () {
+    }
+
+    getRandomGroupName() {
         // Once the team lead checkbox is implmented, make sure to check the state here.
-        var randomTeamName = this.randomGroupNames[Math.floor(Math.random() * this.randomGroupNames.length)];
-        return "Group " + randomTeamName;
-    };
-    randomGeneratorViewModel.prototype._formatGroupListing = function (nestedArray) {
-        var formattedArray = null;
-        formattedArray = nestedArray.map(function (itemArray) {
-            var formattedList = {
+        let randomTeamName = this.randomGroupNames[Math.floor(Math.random() * this.randomGroupNames.length)];
+
+        return `Group ${randomTeamName}`;
+    }
+
+    _formatGroupListing(nestedArray: string[][]) {
+        let formattedArray: object[] = null;
+        
+        formattedArray = nestedArray.map( (itemArray) => {
+            let formattedList = {
                 itemStringified: itemArray.join(', '),
                 numberOfItems: itemArray.length
-            };
+            }
+
             return formattedList;
         });
+
         return formattedArray;
-    };
-    return randomGeneratorViewModel;
-}());
-$(function () {
+    }
+}
+
+$(function() {
     ko.applyBindings(new randomGeneratorViewModel());
 });

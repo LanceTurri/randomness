@@ -3,9 +3,27 @@
 <head>
     <title>Randomization engine</title>
 
+    <link rel="apple-touch-icon" sizes="57x57" href="Images/favicons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="Images/favicons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="Images/favicons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="Images/favicons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="Images/favicons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="Images/favicons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="Images/favicons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="Images/favicons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="Images/favicons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="Images/favicons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="Images/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="Images/favicons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="Images/favicons/favicon-16x16.png">
+    <link rel="manifest" href="Images/favicons/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="Images/favicons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
     <link href="https://fonts.googleapis.com/css?family=Pacifico|Quicksand:300,700" rel="stylesheet"> 
     <link rel="stylesheet" href="Styles/base.min.css" />
-    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 </head>
 <body class="flex-wrapper">
 
@@ -65,9 +83,12 @@
             <!-- ko if: peopleArray().length > 0 -->
             <ul class="summary-group">
                 <!-- ko foreach: peopleArray -->
-                <li class="summary-group-item">
-                    <strong class="summary-group-title" data-bind="text: 'Group ' + $index()"></strong>
-                    <!-- ko text: $data --><!-- /ko -->
+                <li class="summary-group-list">
+                    <div class="summary-group-header">
+                        <strong class="summary-group-title" data-bind="text: $parent.getRandomGroupName()"></strong>
+                        <span class="status-label" data-bind="text: 'Size: ' + $data.numberOfItems"></span>
+                    </div>
+                    <!-- ko text: $data.itemStringified --><!-- /ko -->
                 </li>
                 <!-- /ko -->
             </ul>

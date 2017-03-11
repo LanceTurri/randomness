@@ -417,16 +417,16 @@ template {
   cursor: default;
   opacity: 0.5; }
 
-body,
 html {
-  height: 100%; }
+  height: 100%;
+  min-height: 100%; }
 
 body {
-  background: url("../Images/background.png"); }
+  background: url("../Images/background.png");
+  min-height: 100%; }
 
 .flex-wrapper {
   display: flex;
-  height: 100%;
   flex-direction: column; }
 
 .header-bar {
@@ -486,15 +486,8 @@ main {
       padding: 5px 5px;
       font-size: 14px; }
     .sidebar-controls .sidebar-summary .status-label {
-      background: #2ecc71;
-      padding: 2px 5px;
-      border-radius: 3px;
       float: right;
-      text-transform: uppercase;
-      font-weight: 700;
-      font-size: 12px;
-      width: 60px;
-      text-align: center; }
+      width: 60px; }
   .sidebar-controls .sidebar-control-group {
     margin-bottom: 10px; }
     .sidebar-controls .sidebar-control-group .form-control {
@@ -555,19 +548,34 @@ main {
     list-style: none;
     margin: 0;
     padding: 15px; }
-    .summary .summary-group .summary-group-item {
+    .summary .summary-group .summary-group-list {
       background: #E5E5E5;
       padding: 10px;
       margin: 5px;
       position: relative;
       border-radius: 3px;
       line-height: 135%; }
+    .summary .summary-group .summary-group-header {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      padding-bottom: 10px; }
     .summary .summary-group .summary-group-title {
       color: #444349;
       display: block;
       font-weight: 700;
-      font-size: 18px;
-      padding-bottom: 10px; }
+      font-size: 18px; }
 
 textarea {
   min-height: 150px; }
+
+.status-label {
+  background: #2ecc71;
+  color: #F5F5F5;
+  padding: 2px 5px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 12px;
+  text-align: center; }

@@ -22,19 +22,20 @@
     opacity: 0.5;
 }
 
-body,
 html {
     height: 100%;
+    min-height: 100%;
 }
 
 body {
     background: url('../Images/background.png');
+    min-height: 100%;
+
     @extend .quicksand;
 }
 
 .flex-wrapper {
     display: flex;
-    height: 100%;
     flex-direction: column;
 }
 
@@ -122,15 +123,8 @@ main {
         }
 
         .status-label {
-            background: $accent;
-            padding: 2px 5px;
-            border-radius: 3px;
             float: right;
-            text-transform: uppercase;
-            font-weight: 700;
-            font-size: 12px;
             width: 60px;
-            text-align: center;
         }
     }
 
@@ -220,7 +214,7 @@ main {
         margin: 0;
         padding: 15px;
 
-        .summary-group-item {
+        .summary-group-list {
             background: $gray-lighten-2;
             padding: 10px;
             margin: 5px;
@@ -229,12 +223,18 @@ main {
             line-height: 135%;
         }
 
+        .summary-group-header {
+            align-items: center;
+            display: flex;
+            justify-content: space-between;
+            padding-bottom: 10px;
+        }
+
         .summary-group-title {
             color: $base-gray;
             display: block;
             font-weight: 700;
             font-size: 18px;
-            padding-bottom: 10px;
         }
     }
 }
@@ -243,3 +243,14 @@ textarea {
     min-height: 150px;
 }
 
+.status-label {
+    background: $accent;
+    color: $gray-lighten-3;
+    padding: 2px 5px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 12px;
+    text-align: center;
+}

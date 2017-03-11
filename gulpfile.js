@@ -1,18 +1,19 @@
 'use strict';
 
-var gulp = require('gulp');
-var gulpif = require('gulp-if');
-var debug = require('gulp-debug')
-var sass = require('gulp-sass');
-var notify = require('gulp-notify');
-var imagemin = require('gulp-imagemin');
-var jshint = require('gulp-jshint');
-var uglify = require('gulp-uglify');
-var uglifycss = require('gulp-uglifycss');
-var ext_replace = require('gulp-ext-replace');
-var sourcemaps = require('gulp-sourcemaps');
+const gulp = require('gulp');
+const gulpif = require('gulp-if');
+const debug = require('gulp-debug')
+const sass = require('gulp-sass');
+const notify = require('gulp-notify');
+const imagemin = require('gulp-imagemin');
+const jshint = require('gulp-jshint');
+const ts = require('gulp-typescript');
+const uglify = require('gulp-uglify');
+const uglifycss = require('gulp-uglifycss');
+const ext_replace = require('gulp-ext-replace');
+const sourcemaps = require('gulp-sourcemaps');
 
-var isDebugEnabled = true;
+const isDebugEnabled = true;
 
 gulp.task('scss', function () {
   return gulp.src('Styles/*.scss')
@@ -30,7 +31,18 @@ gulp.task('scss', function () {
     }));
 });
 
-gulp.task('js', function() {
+gulp.task('ts', () => {
+  return gulp.src('Scripts/*.ts')
+    .pipe(gulpif(isDebugEnabled, debug({ title: 'TS |' })))
+    .pipe(ts({
+        noImplicitAny: true,
+        out: 'app.js'
+    }))
+    .pipe(gulp.dest('Scripts'));
+})
+
+
+gulp.task('js', ['ts'], () => {
   return gulp.src(['Scripts/*.js', '!Scripts/*.min.js', '!Scripts/vendor/*'])
     .pipe(gulpif(isDebugEnabled, debug({ title: 'JS |' })))
     .pipe(jshint())
@@ -45,7 +57,7 @@ gulp.task('js', function() {
 
 gulp.task('watch', function () {
   gulp.watch('Styles/*.scss', ['scss']);
-  gulp.watch('Scripts/*.js', ['js']);
+  gulp.watch('Scripts/*.ts', ['ts']);
 });
 
 gulp.task('default', ['watch']);
